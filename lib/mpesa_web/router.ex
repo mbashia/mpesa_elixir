@@ -21,9 +21,11 @@ defmodule MpesaWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", MpesaWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", MpesaWeb do
+    pipe_through :api
+
+    post "/callback", MpesaController, :handle_callback
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:mpesa, :dev_routes) do
