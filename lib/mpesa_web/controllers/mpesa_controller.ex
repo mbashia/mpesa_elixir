@@ -2,78 +2,46 @@ defmodule MpesaWeb.MpesaController do
   use MpesaWeb, :controller
 
   require Logger
-  # # Handles the callback data
-  # def handle_callback(conn, %{"Body" => %{"stkCallback" => stk_callback}} = _params) do
-  #   # Extract the result code
-
-  #   Logger.info("STK Callback: #{inspect(stk_callback)}")
-  #   result_code = Map.get(stk_callback, "ResultCode")
-
-  #   if result_code != 0 do
-  #     # Handle the failed transaction
-  #     error_message = Map.get(stk_callback, "ResultDesc")
-  #     response_data = %{"ResultCode" => result_code, "ResultDesc" => error_message}
-
-  #     # Respond to M-Pesa with the error details
-  #     conn
-  #     |> put_status(:ok)
-  #     |> json(response_data)
-  #   else
-  #     # Handle the successful transaction
-  #     callback_metadata = Map.get(stk_callback, "CallbackMetadata", %{})
-
-  #     # Parse the metadata
-  #     amount = find_item(callback_metadata, "Amount")
-  #     mpesa_code = find_item(callback_metadata, "MpesaReceiptNumber")
-  #     phone_number = find_item(callback_metadata, "PhoneNumber")
-
-  #     # Example: Save to the database (replace `save_transaction/3` with your implementation)
-  #     save_transaction(amount, mpesa_code, phone_number)
-
-  #     # Respond with success
-  #     conn
-  #     |> put_status(:ok)
-  #     |> json(%{"status" => "success"})
-  #   end
-  # end
-
- 
-
+  # Handle successful transactions
   def handle_callback(conn, %{
         "Body" => %{
           "stkCallback" => %{
             "CheckoutRequestID" => _checkout_request_id,
-            "MerchantRequestID" => _merchantRequestID,
-            "ResultCode" => _resultCode,
-            "ResultDesc" => _resultDesc
+            "MerchantRequestID" => _merchant_request_id,
+            "ResultCode" => 0,
+            "ResultDesc" => _result_desc,
+            "CallbackMetadata" => %{
+              "Item" => _items
+            }
           }
         }
       }) do
-    json(conn, %{"status" => "error", "message" => "Invalid payload"})
+    Logger.info("Successful transaction:")
+
+    json(conn, %{"status" => "ok"})
   end
 
-  # Handles the callback data
-  def handle_callback(conn, %{"Body" => %{"stkCallback" => stk_callback}} = _params) do
-    # Extract the result code
-    IO.inspect(stk_callback, label: "STK Callback")
-    json(conn, %{"status" => "success"})
+  # Handle unsuccessful transactions
+  def handle_callback(conn, %{
+        "Body" => %{
+          "stkCallback" => %{
+            "CheckoutRequestID" => _checkout_request_id,
+            "MerchantRequestID" => _merchant_request_id,
+            "ResultCode" => result_code,
+            "ResultDesc" => _result_desc
+          }
+        }
+      })
+      when result_code != 0 do
+    Logger.warning("Unsuccessful transaction:")
+
+    json(conn, %{
+      "status" => "ok"
+    })
   end
 
+  # Handle unexpected payloads
   def handle_callback(conn, params) do
-    IO.inspect(params, label: "Unhandled Callback Parameters")
     json(conn, %{"status" => "error", "message" => "Invalid payload"})
   end
-
-  # Helper function to extract an item by name
-  # defp find_item(%{"Item" => items}, name) do
-  #   items
-  #   |> Enum.find(fn %{"Name" => n} -> n == name end)
-  #   |> Map.get("Value")
-  # end
-
-  # # Mock function for saving the transaction (replace with actual logic)
-  # defp save_transaction(amount, mpesa_code, phone_number) do
-  #   IO.puts("Amount: #{amount}, Code: #{mpesa_code}, Phone: #{phone_number}")
-  #   :ok
-  # end
 end
