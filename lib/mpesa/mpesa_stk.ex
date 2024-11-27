@@ -5,6 +5,8 @@ defmodule Mpesa.MpesaStk do
 
   alias Mpesa.MpesaAuth
 
+  require Logger
+
   @pass_key System.get_env("MPESA_PASS_KEY")
   @short_code "174379"
 
@@ -19,6 +21,7 @@ defmodule Mpesa.MpesaStk do
 
     case response do
       {:ok, %Finch.Response{status: 200, body: resp_body}} ->
+        Logger.info("Initiated payment successfully")
         {:ok, resp_body |> Jason.decode!()}
 
       {:ok, %Finch.Response{status: _status, body: resp_body}} ->
@@ -33,6 +36,7 @@ defmodule Mpesa.MpesaStk do
   defp generate_body(_phone_number, _amount) do
     timestamp = get_timestamp()
     password = generate_stk_password()
+    transaction_reference = generate_transaction_reference()
 
     %{
       BusinessShortCode: @short_code,
@@ -44,7 +48,7 @@ defmodule Mpesa.MpesaStk do
       PartyB: @short_code,
       PhoneNumber: "254791531926",
       CallBackURL: "https://aa2d-102-214-157-80.ngrok-free.app/api/callback",
-      AccountReference: "account",
+      AccountReference: transaction_reference,
       TransactionDesc: "Test"
     }
     |> Jason.encode!()
@@ -70,6 +74,11 @@ defmodule Mpesa.MpesaStk do
   def get_timestamp() do
     Timex.local()
     |> Timex.format!("{YYYY}{0M}{0D}{h24}{m}{s}")
+  end
+
+  @doc false
+  defp generate_transaction_reference() do
+    :crypto.strong_rand_bytes(7) |> Base.encode16()
   end
 
   @doc false
