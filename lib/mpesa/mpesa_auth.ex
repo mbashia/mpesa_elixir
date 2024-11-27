@@ -7,6 +7,8 @@ defmodule Mpesa.MpesaAuth do
   authorized API requests to any the Mpesa API.  
   """
 
+  require Logger
+
   @consumer_key System.get_env("MPESA_CONSUMER_KEY")
   @consumer_secret System.get_env("MPESA_CONSUMER_SECRET")
 
@@ -36,6 +38,10 @@ defmodule Mpesa.MpesaAuth do
 
       {:ok, %Finch.Response{status: status, body: _body}} ->
         {:error, "Failed to generate token. Status: #{status}"}
+
+      {:error, reason} ->
+        Logger.error("Token generation failed: #{inspect(reason)}")
+        {:error, "Authentication error"}
     end
   end
 
