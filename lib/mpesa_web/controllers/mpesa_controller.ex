@@ -37,35 +37,15 @@ defmodule MpesaWeb.MpesaController do
   #   end
   # end
 
-  def handle_callback(conn, %{
-        "CheckoutRequestID" => checkout_request_id,
-        "CustomerMessage" => customer_message,
-        "MerchantRequestID" => merchant_request_id,
-        "ResponseCode" => response_code,
-        "ResponseDescription" => response_description
-      }) do
-    # Process the parameters as needed
-    IO.inspect(
-      %{
-        checkout_request_id: checkout_request_id,
-        customer_message: customer_message,
-        merchant_request_id: merchant_request_id,
-        response_code: response_code,
-        response_description: response_description
-      },
-      label: "Received Callback"
-    )
-
-    json(conn, %{"status" => "success"})
-  end
+ 
 
   def handle_callback(conn, %{
         "Body" => %{
           "stkCallback" => %{
-            "CheckoutRequestID" => checkout_request_id,
-            "MerchantRequestID" => merchantRequestID,
-            "ResultCode" => resultCode,
-            "ResultDesc" => resultDesc
+            "CheckoutRequestID" => _checkout_request_id,
+            "MerchantRequestID" => _merchantRequestID,
+            "ResultCode" => _resultCode,
+            "ResultDesc" => _resultDesc
           }
         }
       }) do
@@ -85,15 +65,15 @@ defmodule MpesaWeb.MpesaController do
   end
 
   # Helper function to extract an item by name
-  defp find_item(%{"Item" => items}, name) do
-    items
-    |> Enum.find(fn %{"Name" => n} -> n == name end)
-    |> Map.get("Value")
-  end
+  # defp find_item(%{"Item" => items}, name) do
+  #   items
+  #   |> Enum.find(fn %{"Name" => n} -> n == name end)
+  #   |> Map.get("Value")
+  # end
 
-  # Mock function for saving the transaction (replace with actual logic)
-  defp save_transaction(amount, mpesa_code, phone_number) do
-    IO.puts("Amount: #{amount}, Code: #{mpesa_code}, Phone: #{phone_number}")
-    :ok
-  end
+  # # Mock function for saving the transaction (replace with actual logic)
+  # defp save_transaction(amount, mpesa_code, phone_number) do
+  #   IO.puts("Amount: #{amount}, Code: #{mpesa_code}, Phone: #{phone_number}")
+  #   :ok
+  # end
 end

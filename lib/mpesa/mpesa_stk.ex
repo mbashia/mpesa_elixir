@@ -19,14 +19,12 @@ defmodule Mpesa.MpesaStk do
 
     case response do
       {:ok, %Finch.Response{status: 200, body: resp_body}} ->
-        IO.write("I fell here(200)")
         {:ok, resp_body |> Jason.decode!()}
 
-      {:ok, %Finch.Response{status: status, body: resp_body}} ->
-        IO.write("I fell here#{status}")
+      {:ok, %Finch.Response{status: _status, body: resp_body}} ->
         resp_body |> Jason.decode!() |> IO.inspect()
 
-      {:error, reason} ->
+      {:error, _reason} ->
         {:error, "Failed to initiate payment"}
     end
   end
