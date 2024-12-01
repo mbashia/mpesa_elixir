@@ -6,18 +6,18 @@ defmodule GithubWorkflows do
   
     def get do
       %{
-        "main.yml" => main_workflow(),
+        "master.yml" => master_workflow(),
         "pr.yml" => pr_workflow()
       }
     end
   
-    defp main_workflow do
+    defp master_workflow do
       [
         [
-          name: "Main",
+          name: "master",
           on: [
             push: [
-              branches: ["main"]
+              branches: ["master"]
             ]
           ],
           jobs: elixir_ci_jobs()
