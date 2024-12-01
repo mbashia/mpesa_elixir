@@ -41,7 +41,7 @@ defmodule MpesaWeb.MpesaController do
   end
 
   # Handle unexpected payloads
-  def handle_callback(conn, params) do
+  def handle_callback(conn, _params) do
     json(conn, %{"status" => "error", "message" => "Invalid payload"})
   end
 end
