@@ -51,7 +51,8 @@ defmodule Mpesa.MixProject do
       {:gettext, "~> 0.26 and >= 0.26.1"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:igniter, "~> 0.4.7"}
+      {:igniter, "~> 0.4.7"},
+      {:timex, "~>3.7.11"}
     ]
   end
 
