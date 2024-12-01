@@ -74,7 +74,18 @@ defmodule Mpesa.MixProject do
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind default", "esbuild default"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
+      ci: [
+        # "compile --warnings-as-errors",
+        "deps.unlock --check-unused",
+        "deps.audit",
+        "hex.audit",
+        "sobelow --config .sobelow-conf",
+        "format --check-formatted",
+        "cmd npx prettier -c .",
+        "credo --strict"
+      ],
+      prettier: ["cmd npx prettier -w ."]
     ]
   end
 end
