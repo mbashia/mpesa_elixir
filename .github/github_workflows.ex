@@ -31,11 +31,8 @@ defmodule GithubWorkflows do
           name: "PR",
           on: [
             pull_request: [
-              branches: ["develop"],
+              branches: ["master"],
               types: ["opened", "reopened", "synchronize"]
-            ],
-            push: [
-              branches: ["develop"]
             ]
           ],
           jobs: elixir_ci_jobs()
