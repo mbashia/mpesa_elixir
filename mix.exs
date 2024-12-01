@@ -53,7 +53,10 @@ defmodule Mpesa.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:igniter, "~> 0.4.7"},
       {:timex, "~>3.7.11"},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
+      {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false},
+      {:github_workflows_generator, "~> 0.1", only: :dev, runtime: false}
     ]
   end
 
