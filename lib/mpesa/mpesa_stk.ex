@@ -25,7 +25,7 @@ defmodule Mpesa.MpesaStk do
         {:ok, resp_body |> Jason.decode!()}
 
       {:ok, %Finch.Response{status: _status, body: resp_body}} ->
-        resp_body |> Jason.decode!() |> IO.inspect()
+        resp_body |> Jason.decode!()
 
       {:error, _reason} ->
         {:error, "Failed to initiate payment"}
@@ -64,20 +64,20 @@ defmodule Mpesa.MpesaStk do
   # Generate stk password to be passed as one of the required body parameters.
   # This is the Base64-encoded value of the concatenation of the Shortcode + Passkey + Timestamp
   @doc false
-  defp generate_stk_password() do
+  defp generate_stk_password do
     timestamp = get_timestamp()
     Base.encode64("#{@short_code}#{@pass_key}#{timestamp}")
   end
 
   ## generate timestamp
   @doc false
-  def get_timestamp() do
+  def get_timestamp do
     Timex.local()
     |> Timex.format!("{YYYY}{0M}{0D}{h24}{m}{s}")
   end
 
   @doc false
-  defp generate_transaction_reference() do
+  defp generate_transaction_reference do
     :crypto.strong_rand_bytes(7) |> Base.encode16()
   end
 

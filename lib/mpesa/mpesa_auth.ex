@@ -23,7 +23,7 @@ defmodule Mpesa.MpesaAuth do
    {:ok, token} = MpesaAuth.generate_token()
 
   """
-  def generate_token() do
+  def generate_token do
     url = url()
     headers = get_headers()
 
@@ -49,7 +49,7 @@ defmodule Mpesa.MpesaAuth do
   defp url, do: "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
 
   @doc false
-  defp get_headers() do
+  defp get_headers do
     encoded_credentials = encode_credentials()
 
     [
@@ -59,7 +59,7 @@ defmodule Mpesa.MpesaAuth do
   end
 
   @doc false
-  defp encode_credentials() do
+  defp encode_credentials do
     Base.encode64("#{@consumer_key}:#{@consumer_secret}")
   end
 end
