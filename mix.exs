@@ -76,7 +76,7 @@ defmodule Mpesa.MixProject do
       "assets.build": ["tailwind default", "esbuild default"],
       "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
       ci: [
-        # "compile --warnings-as-errors",
+        "compile --warnings-as-errors",
         "deps.unlock --check-unused",
         "deps.audit",
         "hex.audit",

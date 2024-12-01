@@ -70,7 +70,7 @@ defmodule GithubWorkflows do
           [
             name: "Compile",
             env: [MIX_ENV: "test"],
-            run: "mix compile"
+            run: "mix compile --warnings-as-errors"
           ]
         ]
       )
