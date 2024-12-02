@@ -24,7 +24,7 @@ defmodule MpesaWeb.Stklive.Index do
 
   def handle_event(
         "validate",
-        %{"stk_form" => %{"Phone_number" => phone_number, "amount" => amount}} = params,
+        %{"stk_form" => %{"Phone_number" => phone_number, "amount" => amount}},
         socket
       ) do
     # Use a plain map as data
