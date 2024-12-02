@@ -39,7 +39,6 @@ defmodule MpesaWeb.Stklive.Index do
   end
 end
 
-
 ## test- if phone number is valid
 ## test- if amount is greater than 0
 ## 
