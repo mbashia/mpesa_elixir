@@ -1,4 +1,10 @@
 defmodule Mpesa.StkForm do
+  @moduledoc """
+  A module for handling and validating STK push form data in the Mpesa integration.
+
+  It validates the phone number format and ensures that the amount is greater than zero.
+  """
+
   import Ecto.Changeset
 
   @types %{

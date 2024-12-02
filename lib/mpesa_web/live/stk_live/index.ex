@@ -28,12 +28,10 @@ defmodule MpesaWeb.Stklive.Index do
         socket
       ) do
     # Use a plain map as data
-    IO.inspect(params, label: "Inspecting params")
     data = %{}
 
     # Build the changeset
     changeset = StkForm.changeset(data, %{:Phone_number => phone_number, :amount => amount})
-    IO.inspect(changeset, label: "Inspecting changeset")
 
     {:noreply, assign(socket, form: to_form(changeset, action: :validate, as: "stk_form"))}
   end
@@ -41,7 +39,5 @@ end
 
 ## test- if phone number is valid
 ## test- if amount is greater than 0
-## 
 ## test- if phone number is invalid
-
 ## validate phone number
