@@ -18,6 +18,7 @@ defmodule MpesaWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    live "/stk-test", Stklive.Index
   end
 
   # Other scopes may use custom stacks.
