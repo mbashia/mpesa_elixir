@@ -33,7 +33,7 @@ defmodule Mpesa.MpesaStk do
   end
 
   @doc false
-  defp generate_body(_phone_number, _amount) do
+  defp generate_body(phone_number, amount) do
     timestamp = get_timestamp()
     password = generate_stk_password()
     transaction_reference = generate_transaction_reference()
@@ -43,11 +43,11 @@ defmodule Mpesa.MpesaStk do
       Password: password,
       Timestamp: timestamp,
       TransactionType: "CustomerPayBillOnline",
-      Amount: "1",
-      PartyA: "254791531926",
+      Amount: amount,
+      PartyA: phone_number,
       PartyB: @short_code,
-      PhoneNumber: "254791531926",
-      CallBackURL: "https://aa2d-102-214-157-80.ngrok-free.app/api/callback",
+      PhoneNumber: phone_number,
+      CallBackURL: "https://9e55-41-212-115-150.ngrok-free.app/api/callback",
       AccountReference: transaction_reference,
       TransactionDesc: "Test"
     }
@@ -71,7 +71,7 @@ defmodule Mpesa.MpesaStk do
 
   ## generate timestamp
   @doc false
-  def get_timestamp do
+  defp get_timestamp do
     Timex.local()
     |> Timex.format!("{YYYY}{0M}{0D}{h24}{m}{s}")
   end
