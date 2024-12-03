@@ -7,7 +7,7 @@ import Config
 # Run `mix help test` for more information.
 config :mpesa, Mpesa.Repo,
   username: "postgres",
-  password: "postgres",
+  password: System.get_env("POSTGRESS_PASS"),
   hostname: "localhost",
   database: "mpesa_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
